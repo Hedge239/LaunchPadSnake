@@ -8,3 +8,7 @@ build/
 # Files
 CMakePresets.json
 .clangd
+
+# Custom
+music.wav
+deathSound.wav
