@@ -23,11 +23,11 @@ Input options can be changed by setting the respected [INPUT_KEY] to the ID of t
 ### Too quiet?
 Well I have you covered! You can play any [.wav] files for both background music and death sounds (more may come in the future)
 
-Just have the following files, with the exact names, in the same directory as the executable
+Just have the following files, with the exact names, in the same directory as the executable and it just works!
 
 - music.wav
 - death.wav
 
 ## License
-DyanicLibTesting is licensed under the MIT License, see [LICENSE.txt](https://github.com/Hedge239/LaunchPadSnake/blob/main/LICENSE.txt) for more information
+LaunchPadSnake is licensed under the MIT License, see [LICENSE.txt](https://github.com/Hedge239/LaunchPadSnake/blob/main/LICENSE.txt) for more information
 > Copyright (c) 2023-2025 Lucas I Kohorst
