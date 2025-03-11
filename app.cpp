@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <filesystem>
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -28,6 +29,7 @@ int playerScore;
 // FORWARD CALLS //
 void CALLBACK MidiCallback(HMIDIIN hMidiIn, UINT wMsg, DWORD_PTR dwInstance, DWORD_PTR dwParam1, DWORD_PTR dwParam2);
 void changeButtonColor(int posX, int posY, int color);
+void playAudio(std::string filename, bool doLoop);
 
 
 void updateBoard()
@@ -134,6 +136,7 @@ void gameLoop()
                 }
             }
 
+            playAudio("death.wav", false);
             break;
         };
 
@@ -181,10 +184,20 @@ int main()
     playerScore = 0;
 
     std::cout << "Starting game loop" << std::endl;
+    playAudio("music.wav", true);
     gameLoop();
 
     std::cout << "Game Over : Final Score [" << playerScore << "] : Press enter to exit" << std::endl;
     std::cin.get();
+
+    std::cout << "Clearing Lights" << std::endl;
+    for(int i1 = 0; i1 < 8; ++i1)
+    {
+        for(int i2 = 0l; i2 < 8; ++i2)
+        {
+            changeButtonColor(i1, i2, 0);
+        }
+    }
 
     std::cout << "Cleaning up" << std::endl;
     midiInStop(_hMidiInput);
@@ -193,7 +206,32 @@ int main()
     midiInClose(_hMidiInput);
 }
 
-// Midi Control
+// Midi/audio Control
+void playAudio(std::string filename, bool doLoop)
+{
+    std::cout << "Stopping Current Audio" << std::endl;
+    PlaySound(NULL, NULL, 0); 
+
+    if(!std::filesystem::exists(filename))
+    {
+        std::cout << "Faild to start audio : No audio file" << std::endl;
+        return;
+    }
+
+    DWORD options;
+
+    if(doLoop)
+    {
+        options = SND_FILENAME | SND_ASYNC | SND_LOOP;
+    }else 
+    {
+        options = SND_FILENAME | SND_ASYNC;
+    }
+
+    std::cout << "Playing [" << filename << "]" << std::endl;
+    PlaySound(filename.c_str(), NULL, options);
+}
+
 void changeButtonColor(int posX, int posY, int color)
 {
     int targetNote = (posY * 16) + posX;
